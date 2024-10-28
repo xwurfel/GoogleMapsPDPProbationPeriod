@@ -25,14 +25,12 @@ fun RootNavigator() {
         composable<Destinations.PoiSettings> {
             val latitude = it.toRoute<Destinations.PoiSettings>().latitude
             val longitude = it.toRoute<Destinations.PoiSettings>().longitude
-            PoiSettingsScreenRoute(latitude, longitude) {
-                navController.navigateUp()
-            }
+            PoiSettingsScreenRoute(latitude, longitude, onBack = navController::navigateUp)
         }
 
         composable<Destinations.PoiDetails> {
             val poiId = it.toRoute<Destinations.PoiDetails>().poiId
-            PoiDetailsScreenRoute(poiId)
+            PoiDetailsScreenRoute(poiId, onBack = navController::navigateUp)
         }
     }
 
