@@ -20,12 +20,13 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.MapsComposeExperimentalApi
+import com.google.maps.android.compose.clustering.Clustering
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.mike_ilnytskyi.google_maps_pdp_probation_period.navigation.Destinations
 import com.mike_ilnytskyi.google_maps_pdp_probation_period.presentation.common.ErrorScreenContent
 import com.mike_ilnytskyi.google_maps_pdp_probation_period.presentation.common.LoadingScreenContent
+import com.mike_ilnytskyi.google_maps_pdp_probation_period.presentation.home.model.PoiClusterItem
 
 @Composable
 fun HomeScreenRoute(onNavigate: (Destinations) -> Unit) {
@@ -63,7 +64,7 @@ fun HomeScreenRoute(onNavigate: (Destinations) -> Unit) {
 }
 
 
-@OptIn(ExperimentalPermissionsApi::class)
+@OptIn(ExperimentalPermissionsApi::class, MapsComposeExperimentalApi::class)
 @Composable
 fun HomeScreen(
     uiState: HomeViewModel.HomeScreenUiState,
@@ -100,19 +101,13 @@ fun HomeScreen(
             cameraPositionState = cameraPositionState,
             properties = mapProperties,
         ) {
-            uiState.pois.forEach { poi ->
-                Marker(
-                    title = poi.title,
-                    snippet = poi.description,
-                    onClick = {
-                        onNavigateToPoiDetails(poi.id)
-                        true
-                    },
-                    state = MarkerState(
-                        position = poi.location,
-                    )
-                )
-            }
+            Clustering(
+                items = uiState.pois.map { PoiClusterItem(it) },
+                onClusterItemClick = { clusterItem ->
+                    onNavigateToPoiDetails(clusterItem.poi.id)
+                    false
+                },
+            )
         }
     }
 

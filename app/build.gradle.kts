@@ -60,7 +60,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
-    implementation (libs.androidx.core.splashscreen)
+    implementation(libs.androidx.core.splashscreen)
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)
@@ -70,14 +70,15 @@ dependencies {
     implementation(libs.maps.compose.utils)
     implementation(libs.maps.compose.widgets)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.maps.utils.ktx)
 
     // DI
     implementation(libs.hilt.android)
-    implementation (libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
 
     // Accompanist permissions
-    implementation (libs.accompanist.permissions)
+    implementation(libs.accompanist.permissions)
 
     // Location
     implementation(libs.play.services.location)
@@ -85,7 +86,7 @@ dependencies {
     // Room
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.ktx)
-    implementation (libs.androidx.room.runtime)
+    implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
 
     // Coil

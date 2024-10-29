@@ -2,6 +2,7 @@ package com.mike_ilnytskyi.google_maps_pdp_probation_period.presentation.save_po
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -60,7 +61,7 @@ fun PoiSettingsScreenRoute(
         }
     }
 
-    LaunchedEffect(uiState.isSaved){
+    LaunchedEffect(uiState.isSaved) {
         if (uiState.isSaved) {
             onBack()
         }
@@ -134,18 +135,23 @@ fun PoiSettingsScreen(
 fun ImagePicker(
     onImageSelected: (Uri) -> Unit,
 ) {
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
-    ) { uri: Uri? ->
-        uri?.let { onImageSelected(it) }
-    }
+    val pickImageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri: Uri? ->
+            uri?.let { onImageSelected(it) }
+        }
+    )
 
     Button(onClick = {
-        launcher.launch("image/*")
+        pickImageLauncher.launch(
+            PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly).build()
+        )
     }) {
         Text("Select Image")
     }
 }
+
 
 @Preview
 @Composable
